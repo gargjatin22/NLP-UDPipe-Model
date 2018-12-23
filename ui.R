@@ -27,7 +27,7 @@ shinyUI(fluidPage(
       br(),
       selectInput("file3", "Choose UPpipe Model:", 
                   #choices = c("english-ud-2.0-170801.udpipe", "hindi-ud-2.0-170801.udpipe", "spanish-ud-2.0-170801.udpipe","Upload_UDPipe_Model"),selected = "english-ud-2.0-170801.udpipe"),
-      choices = c("english", "hindi", "spanish","afrikaans", "ancient_greek-proiel", "ancient_greek", "arabic", "basque", "belarusian", "bulgarian", "catalan", "chinese", "coptic", "croatian", "czech-cac", "czech-cltt", "czech", "danish", "dutch-lassysmall", "dutch", "english-lines", "english-partut", "estonian", "finnish-ftb", "finnish", "french-partut", "french-sequoia", "french", "galician-treegal", "galician", "german", "gothic", "greek", "hebrew", "hungarian", "indonesian", "irish", "italian", "japanese", "kazakh", "korean", "latin-ittb", "latin-proiel", "latin", "latvian", "lithuanian", "norwegian-bokmaal", "norwegian-nynorsk", "old_church_slavonic", "persian", "polish", "portuguese-br", "portuguese", "romanian", "russian-syntagrus", "russian", "sanskrit", "serbian", "slovak", "slovenian-sst", "slovenian", "spanish-ancora", "swedish-lines", "swedish", "tamil", "turkish", "ukrainian", "urdu", "uyghur", "vietnamese","Upload_UDPipe_Model"),selected = "english"),
+      choices = c("english", "hindi", "spanish","afrikaans", "ancient_greek-proiel", "ancient_greek", "arabic", "basque", "belarusian", "bulgarian", "catalan", "chinese", "coptic", "croatian", "czech-cac", "czech-cltt", "czech", "danish", "dutch-lassysmall", "dutch", "english-lines", "english-partut", "estonian", "finnish-ftb", "finnish", "french-partut", "french-sequoia", "french", "galician-treegal", "galician", "german", "gothic", "greek", "hebrew", "hungarian", "indonesian", "irish", "italian", "japanese", "kazakh", "korean", "latin-ittb", "latin-proiel", "latin", "latvian", "lithuanian", "norwegian-bokmaal", "norwegian-nynorsk", "old_church_slavonic", "persian", "polish", "portuguese-br", "portuguese", "romanian", "russian-syntagrus", "russian", "sanskrit", "serbian", "slovak", "slovenian-sst", "slovenian", "spanish-ancora", "swedish-lines", "swedish", "tamil", "turkish", "ukrainian", "urdu", "uyghur", "vietnamese"),selected = "english"),
     
       tags$hr(),
       tags$hr(),
@@ -65,7 +65,7 @@ shinyUI(fluidPage(
                            h4('How to use this App'),
                            p('To use this app, click on', 
                              span(strong("Upload data (text file)")),
-                             'and uppload the text file then either click on ',
+                             'and upload the text file then either click on ',
                              span(strong("Upload UPpipe model")),
                              'and upload a UPpipe Model or choose UDPipe from given options and then Select list of part-of-speech tags (XPOS)')),
                            
