@@ -35,7 +35,7 @@ shinyServer(function(input, output) {
     if (is.null(input$file2)) {# locate 'file2' from ui.R
       
       modelname=input$file3
-      model_location = paste0("./data/input/manual/",modelname)
+      model_location = paste0("https://github.com/gargjatin22/udpipe.models.ud.2.0/tree/master/inst/udpipe-ud-2.0-170801/",modelname)
       model = udpipe_load_model(model_location)
 
       }
