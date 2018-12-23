@@ -17,7 +17,8 @@ shinyServer(function(input, output) {
     
     if (is.null(input$file1)) {   # locate 'file1' from ui.R
       
-      Data <- readLines(file('D:/personal/ISB/pgdba/CBA/offer/CBA/Course/term 1/TA/Assignment/UDpipe/UDPipe/data/input/manual/test.txt',"r"))
+      #Data <- readLines(file('D:/personal/ISB/pgdba/CBA/offer/CBA/Course/term 1/TA/Assignment/UDpipe/UDPipe/data/input/manual/test.txt',"r"))
+      Data <- readLines(file('https://raw.githubusercontent.com/gargjatin22/NLP-UDPipe-Model/master/test.txt',"r"))
       return(Data)
       #return(NULL)
       } else{
@@ -35,8 +36,14 @@ shinyServer(function(input, output) {
     if (is.null(input$file2)) {# locate 'file2' from ui.R
       
       modelname=input$file3
-      model_location = paste0("https://github.com/gargjatin22/udpipe.models.ud.2.0/tree/master/inst/udpipe-ud-2.0-170801/",modelname)
-      model = udpipe_load_model(model_location)
+      #model_location = paste0("./data/input/manual/",modelname)
+      #model_location = paste0("https://raw.githubusercontent.com/gargjatin22/NLP-UDPipe-Model/master/english-ud-2.0-170801.udpipe",modelname)
+      #model_location = "https://github.com/gargjatin22/udpipe.models.ud.2.0/blob/master/inst/udpipe-ud-2.0-170801/english-ud-2.0-170801.udpipe"
+      #model = udpipe_load_model(modelname)
+      #library(udpipe)
+      dl <- udpipe_download_model(language = modelname)
+      model <- udpipe_load_model(file = dl$file_model)
+      #str(dl)
 
       }
     else{
