@@ -13,6 +13,9 @@ if (!require(shinydashboardPlus)){install.packages("shinydashboardPlus")}
 if (!require(gridExtra)){install.packages("gridExtra")}
 if (!require(shinythemes)){install.packages("shinythemes")}
 if (!require(DT)){install.packages("DT")}
+if (!require(tm)){install.packages("tm")}
+
+
 
 
 
@@ -32,4 +35,4 @@ library(shinyWidgets)
 library(shinydashboardPlus)
 library(gridExtra)
 library(shinythemes)
-
+library(tm)

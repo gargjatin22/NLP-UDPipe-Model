@@ -39,11 +39,6 @@ shinyServer(function(input, output) {
     if (is.null(input$file2)) {# locate 'file2' from ui.R
       
       modelname=input$file3
-      #model_location = paste0("./data/input/manual/",modelname)
-      #model_location = paste0("https://raw.githubusercontent.com/gargjatin22/NLP-UDPipe-Model/master/english-ud-2.0-170801.udpipe",modelname)
-      #model_location = "https://github.com/gargjatin22/udpipe.models.ud.2.0/blob/master/inst/udpipe-ud-2.0-170801/english-ud-2.0-170801.udpipe"
-      #model = udpipe_load_model(modelname)
-      #library(udpipe)
       dl <- udpipe_download_model(language = modelname)
       model <- udpipe_load_model(file = dl$file_model)
       #str(dl)
@@ -77,10 +72,12 @@ shinyServer(function(input, output) {
 
   })
   
-  output$clust_data <- renderTable({
+  output$clust_data <- renderDataTable({
     data = (Model())
     df = as.data.frame(data)
-    head(df,100) 
+    #head(df,100) 
+    DT::datatable(head(df[,1:9],100) , options = list(lengthMenu = c(10, 25, 50), pageLength = 10))
+    
     
   })
   output$clust_summary <- renderPlot({
@@ -141,6 +138,7 @@ shinyServer(function(input, output) {
     to_delete <- !sapply(cooc_plots,is.null)
     cooc_plots <- cooc_plots[to_delete] 
     grid.arrange(grobs=cooc_plots,ncol=length(cooc_plots))
+    
   })
   
 output$iStatePlot <- renderDataTable({
@@ -172,5 +170,75 @@ output$selectState <- renderDataTable({
     group = c("doc_id", "paragraph_id", "sentence_id"))
   DT::datatable(df_cooc_pos, options = list(lengthMenu = c(5, 30, 50), pageLength = 5))
   
+})
+
+output$plot_xpos <- renderPlot({
+  data = (Model())
+  df = as.data.frame(data)
+  df_upos =data.frame(xpos=c("JJ", "NN", "NNP", "RB", "VB"),upos=c("ADJ","NOUN","NOUN","ADV","VERB"),stringsAsFactors = F)
+  checkbox_upos= df_upos$upos[df_upos$xpos %in% c(checkbox_filter())]
+  
+  if (!all(is.na(df$xpos))) {
+    df_cooc <- cooccurrence(     # try `?cooccurrence` for parm options
+      x = subset(df, xpos %in% c(checkbox_filter())), 
+      term = "lemma", 
+      group = c("doc_id", "paragraph_id", "sentence_id"))  
+    
+    wordnetwork <- head(df_cooc, 50)
+    wordnetwork <- igraph::graph_from_data_frame(wordnetwork) # needs edgelist in first 2 colms.
+    
+    plot= ggraph(wordnetwork, layout = "fr") +  
+      
+      geom_edge_link(aes(width = cooc, edge_alpha = cooc), edge_colour = "orange") +  
+      geom_node_text(aes(label = name), col = "darkgreen", size = 4) +
+      
+      theme_graph(base_family = "Arial Narrow") +  
+      theme(legend.position = "none") +
+      
+      labs(title = "Cooccurrences of Xpos")
+  }
+  else {
+    plot = NULL
+  }
+  plot
+  
+  
+})
+output$plot_upos <- renderPlot({
+  data = (Model())
+  df = as.data.frame(data)
+  df_upos =data.frame(xpos=c("JJ", "NN", "NNP", "RB", "VB"),upos=c("ADJ","NOUN","NOUN","ADV","VERB"),stringsAsFactors = F)
+  checkbox_upos= df_upos$upos[df_upos$xpos %in% c(checkbox_filter())]
+  
+df_cooc_pos <- cooccurrence(     # try `?cooccurrence` for parm options
+  x = subset(df, upos %in% c(checkbox_upos)), 
+  term = "lemma", 
+  group = c("doc_id", "paragraph_id", "sentence_id")) 
+
+df_gen <- cooccurrence(x = df$lemma, 
+                       relevant = df$xpos %in% c(checkbox_filter()))
+#c("NOUN", "ADJ")) # 0.00 secs
+
+
+
+
+#Upos
+wordnetwork_upos <- head(df_cooc_pos, 50)
+wordnetwork_upos <- igraph::graph_from_data_frame(wordnetwork_upos) # needs edgelist in first 2 colms.
+
+plot_upos = ggraph(wordnetwork_upos, layout = "fr") +  
+  
+  geom_edge_link(aes(width = cooc, edge_alpha = cooc), edge_colour = "orange") +  
+  geom_node_text(aes(label = name), col = "darkgreen", size = 4) +
+  
+  theme_graph(base_family = "Arial Narrow") +  
+  theme(legend.position = "none") +
+  
+  labs(title = "Cooccurrences of Upos")
+plot_upos
+#cooc_plots = list(plot,plot_upos)
+#to_delete <- !sapply(cooc_plots,is.null)
+#cooc_plots <- cooc_plots[to_delete] 
+#grid.arrange(grobs=cooc_plots,ncol=length(cooc_plots))
 })
 })
