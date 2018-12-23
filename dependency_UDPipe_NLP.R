@@ -12,6 +12,8 @@ if (!require(shinydashboard)){install.packages("shinydashboard")}
 if (!require(shinydashboardPlus)){install.packages("shinydashboardPlus")}
 if (!require(gridExtra)){install.packages("gridExtra")}
 if (!require(shinythemes)){install.packages("shinythemes")}
+if (!require(DT)){install.packages("DT")}
+
 
 
 
@@ -24,6 +26,7 @@ library(ggraph)
 library(ggplot2)
 library(wordcloud)
 library(stringr)
+library(DT)
 library(shinyjs)
 library(shinyWidgets)
 library(shinydashboardPlus)

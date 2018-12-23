@@ -6,6 +6,9 @@
 # 
 #    http://shiny.rstudio.com/
 #
+#  Jeetender Kumar      PGID 11810041
+#  Taruna Gupta         PGID 11810032
+#  Suneet Singh Bhatia  PGID 11810012
 
 library(shiny)
 require(stringr)
@@ -139,6 +142,35 @@ shinyServer(function(input, output) {
     cooc_plots <- cooc_plots[to_delete] 
     grid.arrange(grobs=cooc_plots,ncol=length(cooc_plots))
   })
-
   
+output$iStatePlot <- renderDataTable({
+  data = (Model())
+  df = as.data.frame(data)
+  
+  if (!all(is.na(df$xpos))) {
+    df_cooc <- cooccurrence(     # try `?cooccurrence` for parm options
+      x = subset(df, xpos %in% c(checkbox_filter())), 
+      term = "lemma", 
+      group = c("doc_id", "paragraph_id", "sentence_id"))  
+  }
+  else {
+    df_cooc = NULL
+  }
+
+  DT::datatable(df_cooc, options = list(lengthMenu = c(5, 30, 50), pageLength = 5))
+
+})
+
+output$selectState <- renderDataTable({
+  data = (Model())
+  df = as.data.frame(data)
+  df_upos =data.frame(xpos=c("JJ", "NN", "NNP", "RB", "VB"),upos=c("ADJ","NOUN","NOUN","ADV","VERB"),stringsAsFactors = F)
+  checkbox_upos= df_upos$upos[df_upos$xpos %in% c(checkbox_filter())]
+  df_cooc_pos <- cooccurrence(     # try `?cooccurrence` for parm options
+    x = subset(df, upos %in% c(checkbox_upos)),
+    term = "lemma",
+    group = c("doc_id", "paragraph_id", "sentence_id"))
+  DT::datatable(df_cooc_pos, options = list(lengthMenu = c(5, 30, 50), pageLength = 5))
+  
+})
 })

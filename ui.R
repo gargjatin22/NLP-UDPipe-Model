@@ -5,7 +5,10 @@
 # Find out more about building applications with Shiny here:
 # 
 #    http://shiny.rstudio.com/
-#
+
+#  Jeetender Kumar      PGID 11810041
+#  Taruna Gupta         PGID 11810032
+#  Suneet Singh Bhatia  PGID 11810012
 
 library(shiny)
 library(shinythemes)
@@ -35,7 +38,7 @@ shinyUI(fluidPage(
       inputId = "checkGroup",
       label = "Part-Of-Speech Tags",
       #direction = "vertical",
-      choices = list("1.Adjective (JJ)"="JJ", "2.Noun(NN)"="NN", "3.Proper noun (NNP)"="NNP", "4.Adverb (RB)"="RB", "5.Verb (VB)"="VB" ),
+      choices = list("Adjective (JJ)"="JJ", "Noun(NN)"="NN", "Proper noun (NNP)"="NNP", "Adverb (RB)"="RB", "Verb (VB)"="VB" ),
       selected = c("JJ","NN","NNP")
       #checkIcon = list(yes = icon("ok", 
        #                           lib = "glyphicon")),
@@ -57,7 +60,7 @@ shinyUI(fluidPage(
                            h4(p("Data input")),
                            p("This app supports only text file as input. You Can also upload the UDPipe model of any language or choose from the given list",align="justify"),
                            p("Please refer to the link below for sample text file."),
-                           a(href="https://github.com/sudhir-voleti/sample-data-sets/blob/master/Segmentation%20Discriminant%20and%20targeting%20data/ConneCtorPDASegmentation.csv"
+                           a(href="https://raw.githubusercontent.com/gargjatin22/NLP-UDPipe-Model/master/test.txt"
                              ,"Sample data input file"),   
                            
                            br(),
@@ -68,13 +71,23 @@ shinyUI(fluidPage(
                              'and upload the text file then either click on ',
                              span(strong("Upload UPpipe model")),
                              'and upload a UPpipe Model or choose UDPipe from given options and then Select list of part-of-speech tags (XPOS)')),
-                           
+                          #tags$ol(
+                           # tags$li("click on Upload text file"), 
+                          #  tags$li("Upload the text file"), 
+                          #  tags$li("click on Upload UPpipe model or choose UDPipe from given options"),
+                          #  tags$li("Select list of part-of-speech tags (XPOS)")
+                          #  ),
                            
                   tabPanel("Word Cloud", 
                            addSpinner(plotOutput('plot1'), spin = "circle")),
+                  tabPanel("Cooccurrences Word", 
+                           fluidRow(p("Xpos"),dataTableOutput("iStatePlot"),
+                                    wellPanel(p("Upos"),
+                                      dataTableOutput("selectState")))),
+                           #column(2,addSpinner(dataTableOutput('word1'), spin = "circle"))),
                   
                   tabPanel("Cooccurrences Plot",
-                           column(2,addSpinner(plotOutput(outputId="clust_summary", width="800px",height="600px"), spin = "circle"))),
+                           column(2,addSpinner(plotOutput(outputId="clust_summary", width="900px",height="700px"), spin = "circle"))),
                   tabPanel("Data",
                            tableOutput("clust_data"))
                   #(plotOutput("clust_summary"))
